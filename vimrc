@@ -81,6 +81,12 @@ nmap <silent> [w <Plug>(ale_previous_wrap)
 nmap <silent> ]w <Plug>(ale_next_wrap)
 
 let g:ale_fix_on_save = 1
+let g:ale_linters = {
+\   '*': ['remove_trailing_lines', 'trim_whitespace'],
+\   'javascript': ['eslint'],
+\   'vue': ['eslint'],
+\}
+
 let g:ale_fixers = {
 \   '*': ['remove_trailing_lines', 'trim_whitespace'],
 \   'javascript': ['eslint'],
@@ -90,18 +96,18 @@ let g:ale_fixers = {
 " Go
 autocmd FileType go nmap <leader>t  <Plug>(go-test)
 autocmd FileType go nmap <leader>b  <Plug>(go-build)
-autocmd FileType go nmap <Leader>i <Plug>(go-info)
+autocmd FileType go nmap <leader>i <Plug>(go-info)
 
-autocmd FileType go nmap <leader>c  :<C-u>GoDecls<C-r>
-autocmd FileType go nmap <leader>c  :<C-u>GoDeclsDir<C-r>
+autocmd FileType go nmap <leader>g  :<C-u>GoDecls<CR>
+autocmd FileType go nmap <leader>d  :<C-u>GoDeclsDir<CR>
+autocmd FileType go nmap <leader>r  :<C-u>GoRename<CR>
+
 autocmd Filetype go command! -bang A call go#alternate#Switch(<bang>0, 'edit')
 autocmd Filetype go command! -bang AV call go#alternate#Switch(<bang>0, 'vsplit')
 autocmd Filetype go command! -bang AS call go#alternate#Switch(<bang>0, 'split')
 autocmd Filetype go command! -bang AT call go#alternate#Switch(<bang>0, 'tabe')
 
-let g:go_def_mode = 'godef'
-let g:go_auto_sameids = 1
-let g:go_decls_includes = "func,type"
+" let g:go_auto_sameids = 1
 let g:go_fmt_command = "goimports"
 let g:go_highlight_types = 1
 let g:go_highlight_fields = 1
@@ -111,9 +117,9 @@ let g:go_highlight_operators = 1
 
 autocmd BufNewFile,BufRead *.go setlocal noexpandtab tabstop=4 shiftwidth=4
 
-let g:go_metalinter_enabled = ['vet', 'golint', 'errcheck']
-let g:go_metalinter_autosave = 1
-let g:go_metalinter_autosave_enabled = ['vet', 'golint']
+let g:go_metalinter_enabled = ['vet', 'errcheck']
+let g:go_metalinter_autosave = 0
+let g:go_metalinter_autosave_enabled = ['vet']
 let g:go_metalinter_deadline = "5s"
 
 " Nerdtree
@@ -133,10 +139,16 @@ command! -bang -nargs=? -complete=dir Files
 command! -bang -nargs=? History
     \ call fzf#vim#history({'options': ['--layout=reverse', '--info=inline', '--preview', '~/.vim/plugged/fzf.vim/bin/preview.sh {}']}, <bang>)
 
+command! -bang -nargs=* Rg
+  \ call fzf#vim#grep(
+  \   'rg --column --line-number --no-heading --color=always --smart-case '.shellescape(<q-args>), 1,
+  \   fzf#vim#with_preview(), <bang>0)
+
 nnoremap <silent> <C-p> :<C-u>Files<CR>
 nnoremap <silent> <leader>\ :<C-u>History<CR>
 nnoremap <silent> <Enter><Enter> :<C-u>History<CR>
 nnoremap <silent> <leader>b :<C-u>Buffers<CR>
+nnoremap <silent> <leader>f :<C-u>Rg<CR>
 "}}}
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -266,7 +278,7 @@ nnoremap <silent> <leader>w :<C-u>w<CR>
 nnoremap <leader>v :set paste<CR>"+p:set nopaste<CR>
 
 " Get the count of a search string
-nnoremap <leader>c <Esc>:%s///gn<CR>
+nnoremap <leader>sc <Esc>:%s///gn<CR>
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Files, backups, and completions
