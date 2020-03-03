@@ -4,6 +4,8 @@
 "Necessary for cool features of vim
 set nocompatible
 
+set clipboard=unnamedplus
+
 " Enable syntax highlighting
 syntax enable
 
@@ -51,6 +53,8 @@ Plug 'airblade/vim-gitgutter'                                                   
 
 " Completions and compilations
 Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
+Plug 'fatih/molokai'
+
 Plug 'tpope/vim-dispatch'                                                       " Async command exec in vim
 Plug 'w0rp/ale'
 " Plug 'Valloric/YouCompleteMe', { 'do': './install.py --all' }
@@ -121,6 +125,10 @@ let g:go_metalinter_enabled = ['vet', 'errcheck']
 let g:go_metalinter_autosave = 0
 let g:go_metalinter_autosave_enabled = ['vet']
 let g:go_metalinter_deadline = "5s"
+
+let g:rehash256 = 1
+let g:molokai_original = 1
+colorscheme molokai
 
 " Nerdtree
 """""""""""""
