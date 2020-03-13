@@ -4,7 +4,7 @@
 "Necessary for cool features of vim
 set nocompatible
 
-set clipboard=unnamedplus
+" set clipboard=unnamedplus
 
 " Enable syntax highlighting
 syntax enable
@@ -58,8 +58,9 @@ Plug 'fatih/molokai'
 Plug 'tpope/vim-dispatch'                                                       " Async command exec in vim
 Plug 'w0rp/ale'
 " Plug 'Valloric/YouCompleteMe', { 'do': './install.py --all' }
+"
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
-
+" Plug 'neoclide/coc.nvim', {'tag': '*', 'do': './install.sh'}
 
 " Support for different filetypes
 Plug 'sheerun/vim-polyglot'                                                     " Syntax highlighthing
@@ -79,6 +80,7 @@ call plug#end()
 "{{{ => Plugins Specific
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
+
 " ALE
 """""""""""""
 nmap <silent> [w <Plug>(ale_previous_wrap)
@@ -89,12 +91,14 @@ let g:ale_linters = {
 \   '*': ['remove_trailing_lines', 'trim_whitespace'],
 \   'javascript': ['eslint'],
 \   'vue': ['eslint'],
+\   'python': ['autopep8', 'black', 'isort', 'yapf', 'reorder-python-imports'],
 \}
 
 let g:ale_fixers = {
 \   '*': ['remove_trailing_lines', 'trim_whitespace'],
 \   'javascript': ['eslint'],
 \   'vue': ['eslint'],
+\   'python': ['autopep8', 'black', 'isort', 'yapf', 'reorder-python-imports'],
 \}
 
 " Go
@@ -474,3 +478,15 @@ if has('vim_starting')
     " 置換モード時に非点滅の下線タイプのカーソル
     let &t_SR .= "\e[4 q"
 endif
+
+set hidden
+
+" Use `[g` and `]g` to navigate diagnostics
+nmap <silent> [g <Plug>(coc-diagnostic-prev)
+nmap <silent> ]g <Plug>(coc-diagnostic-next)
+
+" GoTo code navigation.
+nmap <silent> gd <Plug>(coc-definition)
+nmap <silent> gy <Plug>(coc-type-definition)
+nmap <silent> gi <Plug>(coc-implementation)
+nmap <silent> gr <Plug>(coc-references)
